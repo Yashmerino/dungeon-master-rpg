@@ -3,6 +3,11 @@
 
 using namespace std;
 
+string quest; //Vars
+char choose1;
+char choose2;
+bool action = true;
+
 class DungeonMaster { //Dungeon Master class
 private:
     string name = "noname"; //Vars
@@ -44,6 +49,14 @@ public:
 
 };
 
+void QuestUpdated(string task) { //Updatting the quest
+    quest = task;
+}
+
+void ShowQuest() { //Showing your current quest
+    cout << "Your main quest is to " << quest << endl;
+}
+
 int main()
 {
     DungeonMaster hero; //Creatting hero
@@ -61,6 +74,43 @@ int main()
 
     hero.PrintInfo(); //Printing info about the character
     
+    cout << "\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
+    QuestUpdated("Talk with Sirbu.");
+
+    cout << "You reached the Gym." << endl;
+    while (action) {
+        cout << "1. Who are you?\n2. Who i'm i?" << endl;
+        cin >> choose1;
+
+        switch (choose1) {
+        case '1':
+            cout << "\nSirbu: I am Sirbu, i am the first DungeonBorn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
+            cout << "2. Who i'm i?" << endl;
+            cin >> choose2;
+
+            switch (choose2) {
+            case '2':
+                cout << "\nSirbu: You are the last DungeonBorn, you were summoned by the Gamart to save our world!\n" << endl;
+                break;
+            }
+            break;
+
+        case '2':
+            cout << "\nYou are the last DungeonBorn, you were summoned by the Gamart to save our world!\n" << endl;
+            cout << "1. Who are you?" << endl;
+            cin >> choose2;
+
+            switch (choose2) {
+            case '1':
+                cout << "\nI am Sirbu, i am the first Dungeonborn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
+                break;
+            }
+
+            break; 
+        }
+        action = false;
+    }
+
     cin.get();
     return 0;
 }
