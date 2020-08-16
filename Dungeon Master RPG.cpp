@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
-string quest; //Vars
+string quest; //Global vars
 char choose1;
 char choose2;
 bool action = true;
@@ -14,10 +16,19 @@ private:
     char sex;
     int age;
     int weight;
+    int hp;
 
 public:
-    DungeonMaster() : name("Van"), sex('M'), age(20), weight(80) {
+    DungeonMaster() : name("Van"), sex('M'), age(20), weight(80), hp(100) {
 
+    }
+
+    int GetHP() { //Getter for the HP
+        return hp;
+    }
+
+    void SetHP(int value) { //Setter for the HP
+        hp = value;
     }
 
     void SetName() { //Setter for the name
@@ -44,11 +55,17 @@ public:
             cout << "Error. Only F or M: ";
             cin >> sex;
         }
+
     }
 
-    void PrintInfo() { //Function to print info about the character
+    void PrintInfo() { //Printing info about the character
         cout << endl;
         cout << "Your character's name is: " << name << ".\nIt is " << age << " years old." << "\nIt weighs " << weight << " kg." << "\nIt's sex is: " << (char)toupper(sex) << "." << endl;
+    }
+
+    int Attack() { //Attacking
+        srand(time(NULL));
+        return rand() % 100;
     }
 
 };
@@ -116,6 +133,30 @@ public:
 
 };
 
+class Enemy {
+private:
+    int hp;
+
+public:
+    Enemy() : hp(100) {
+
+    }
+
+    int GetHP() { //Getter for the HP
+        return hp;
+    }
+
+    void SetHP(int value) { //Setter for the HP
+        hp = value;
+    }
+
+    int Attack() { //Attacking
+        srand(time(NULL));
+        return rand() % 50;
+    }
+
+};
+
 void QuestUpdated(string task) { //Updatting the quest
     quest = task;
 }
@@ -148,8 +189,16 @@ void DefaultChoose(string infonpc1, string location1, NPC npc1) { //Default sele
     }
 }
 
-int main()
-{
+int DamageEnemy(Enemy& mob, DungeonMaster& dm) { //Attack while fighting
+    return mob.GetHP() - dm.Attack();
+}
+
+int DefenseHero(Enemy& mob, DungeonMaster& dm) { //Defense while fighting
+    return dm.GetHP() - mob.Attack();
+}
+
+int main(){
+
     DungeonMaster hero; //Creatting hero
     cout << "Welcome to the Dungeon Master RPG.\nCreate your character.\nType a name for it: ";
     hero.SetName(); //Setting it's name
@@ -165,7 +214,7 @@ int main()
 
     hero.PrintInfo(); //Printing info about the character
     
-    cout << "\n\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
+    cout << "\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
     QuestUpdated("Talk with Sirbu.");
 
     NPC Sirbu; //Creatting a NPC
@@ -212,9 +261,34 @@ int main()
 
     DefaultChoose("Info about Sirbu", "Topala's Dungeon", Sirbu);
 
+    cout << "\nThere is a skeleton! You need to kill him!" << endl;
     action = true;
+    Enemy skeleton1;
 
     while (action) {
+        cout << "\nYour HP: " << hero.GetHP() << "\nSkeleton HP: " << skeleton1.GetHP() << endl;
+        cout << "1. Attack 2. Defense" << endl;
+        cin >> choose1;
+        
+        switch (choose1) {
+        case '1':
+            DamageEnemy(skeleton1, hero);
+            skeleton1.SetHP(DamageEnemy(skeleton1, hero));
+            break;
+        case '2':
+            DefenseHero(skeleton1, hero);
+            hero.SetHP(DefenseHero(skeleton1, hero));
+            break;
+        }
+
+        if (skeleton1.GetHP() <= 0) {
+            action = false;
+        }
+        else if (hero.GetHP() <= 0) {
+            cout << "\nYou died." << endl;
+            cin.get();
+            exit(0);
+        }
 
     }
 
