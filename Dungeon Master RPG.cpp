@@ -68,6 +68,11 @@ public:
         return rand() % 100;
     }
 
+    int Defense() { //Defending
+        srand(time(NULL));
+        return rand() % 100;
+    }
+
 };
 
 class NPC {
@@ -155,6 +160,11 @@ public:
         return rand() % 50;
     }
 
+    int Defense() { //Defending
+        srand(time(NULL));
+        return rand() % 100;
+    }
+
 };
 
 void QuestUpdated(string task) { //Updatting the quest
@@ -205,22 +215,68 @@ int DefenseEnemy(Enemy& mob, DungeonMaster& dm) { //Defense while fighting
     return mob.GetHP() - dm.Attack();
 }
 
+void Duel(Enemy& mob, DungeonMaster& dm) { //Duel function
+    action = true;
+    while (action) {
+        cout << "\nYour HP: " << dm.GetHP() << "\nSkeleton HP: " << mob.GetHP() << endl;
+        cout << "1. Attack 2. Defense" << endl;
+        cin >> choose1;
+
+        switch (choose1) {
+        case '1':
+            mob.SetHP(DamageEnemy(mob, dm));
+            dm.SetHP(DamageHero(mob, dm));
+            break;
+        case '2':
+            mob.SetHP(DefenseEnemy(mob, dm));
+            dm.SetHP(DefenseHero(mob, dm));
+            break;
+        }
+
+        if (dm.GetHP() <= 0) {
+            dm.SetHP(0);
+            if (mob.GetHP() <= 0) {
+                mob.SetHP(0);
+            }
+            cout << "\nYour HP: " << dm.GetHP() << "\nSkeleton HP: " << mob.GetHP() << endl;
+            cout << "\nYou died." << endl;
+            cin.get();
+            exit(0);
+            
+        }
+        else if (mob.GetHP() <= 0) {
+            mob.SetHP(0);
+            if (dm.GetHP() <= 0) {
+                dm.SetHP(0);
+                cout << "\nYour HP: " << dm.GetHP() << "\nSkeleton HP: " << mob.GetHP() << endl;
+                cout << "\nYou killed the enemy and died from bleeding!" << endl;
+                cin.get();
+                exit(0);
+            }
+            cout << "\nYour HP: " << dm.GetHP() << "\nSkeleton HP: " << mob.GetHP() << endl;
+            cout << "\nYou killed the enemy!" << endl;
+            action = false;
+        } 
+    }
+    dm.SetHP(100);
+}
+
 int main(){
 
     DungeonMaster hero; //Creatting hero
     cout << "Welcome to the Dungeon Master RPG.\nCreate your character.\nType a name for it: ";
-    hero.SetName(); //Setting it's name
+    //hero.SetName(); //Setting it's name
 
-    cout << "It's age: ";
-    hero.SetAge(); //Setting it's age
+    //cout << "It's age: ";
+    //hero.SetAge(); //Setting it's age
 
-    cout << "It's weight: ";
-    hero.SetWeight(); //Setting it's weight
+    //cout << "It's weight: ";
+    //hero.SetWeight(); //Setting it's weight
 
-    cout << "It's sex (only F or M): ";
-    hero.SetSex(); //Setting it's sex
+    //cout << "It's sex (only F or M): ";
+    //hero.SetSex(); //Setting it's sex
 
-    hero.PrintInfo(); //Printing info about the character
+    //hero.PrintInfo(); //Printing info about the character
     
     cout << "\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
     QuestUpdated("Talk with Sirbu.");
@@ -249,7 +305,6 @@ int main(){
                 break;
             }
             break;
-
         case '2':
             cout << "\nYou are the last DungeonBorn, you were summoned by the Gamart to save our world!\n" << endl;
             cout << "1. Who are you?" << endl;
@@ -272,42 +327,7 @@ int main(){
     cout << "\nThere is a skeleton! You need to kill him!" << endl;
     action = true;
     Enemy skeleton1;
-
-    while (action) {
-        cout << "\nYour HP: " << hero.GetHP() << "\nSkeleton HP: " << skeleton1.GetHP() << endl;
-        cout << "1. Attack 2. Defense" << endl;
-        cin >> choose1;
-        
-        switch (choose1) {
-        case '1':
-            DamageEnemy(skeleton1, hero);
-            DamageHero(skeleton1, hero);
-            skeleton1.SetHP(DamageEnemy(skeleton1, hero));
-            hero.SetHP(DamageHero(skeleton1, hero));
-            break;
-        case '2':
-            DefenseHero(skeleton1, hero);
-            DefenseEnemy(skeleton1, hero);
-            skeleton1.SetHP(DefenseEnemy(skeleton1, hero));
-            hero.SetHP(DefenseHero(skeleton1, hero));
-            break;
-        }
-
-        if (skeleton1.GetHP() <= 0) {
-            skeleton1.SetHP(0);
-            cout << "\nYour HP: " << hero.GetHP() << "\nSkeleton HP: " << skeleton1.GetHP() << endl;
-            cout << "\nYou killed the enemy!" << endl;
-            action = false;
-        }
-        else if (hero.GetHP() <= 0) {
-            hero.SetHP(0);
-            cout << "\nYour HP: " << hero.GetHP() << "\nSkeleton HP: " << skeleton1.GetHP() << endl;
-            cout << "\nYou died." << endl;
-            cin.get();
-            exit(0);
-        }
-
-    }
+    Duel(skeleton1, hero);
 
     cin.get();
     return 0;
