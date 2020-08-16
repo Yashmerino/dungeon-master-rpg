@@ -78,12 +78,34 @@ public:
     }
 };
 
+class Item {
+private:
+    string name = " "; //Item's name
+    int price = 0; //Item's price
+    string attribute = " "; //Item's attribute. Attack, Defense, Quest.
+
+public:
+    void SetName(string nick) { //Setter for item's name
+        name = nick;
+    }
+    void SetPrice(int value) { //Setter for item's price
+        price = value;
+    }
+    void SetAttribute(string type) { //Setter for item's attribute
+        attribute = type;
+    }
+};
+
 void QuestUpdated(string task) { //Updatting the quest
     quest = task;
 }
 
 void ShowQuest() { //Showing your current quest
     cout << "Your main quest is to " << quest << endl;
+}
+
+void ShowInventory() { //Showing your inventory
+        
 }
 
 int main()
