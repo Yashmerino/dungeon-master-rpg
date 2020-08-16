@@ -10,12 +10,16 @@ bool action = true;
 
 class DungeonMaster { //Dungeon Master class
 private:
-    string name = "noname"; //Vars
-    char sex = ' ';
-    int age = 0;
-    int weight = 0;
+    string name; //Vars
+    char sex;
+    int age;
+    int weight;
 
 public:
+    DungeonMaster() : name("Van"), sex('M'), age(20), weight(80) {
+
+    }
+
     void SetName() { //Setter for the name
         string nick;
         cin >> nick;
@@ -51,12 +55,16 @@ public:
 
 class NPC {
 private:
-    string name = "noname";
-    int age = 0;
-    int weight = 0;
-    char sex = ' ';
+    string name;
+    int age;
+    int weight;
+    char sex;
 
 public:
+    NPC() : name("Unknown"), sex('N'), age(0), weight(0) {
+
+    }
+
     void SetName(string nick) { //Setter for the name
         name = nick;
     }
@@ -82,11 +90,15 @@ public:
 
 class Item {
 private:
-    string name = " "; //Item's name
-    int price = 0; //Item's price
-    string purpose = " "; //Item's attribute. Attack, Defense, Quest.
+    string name; //Item's name
+    int price; //Item's price
+    string purpose; //Item's attribute. Attack, Defense, Quest.
 
 public:
+    Item() : name("Unknown"), price(0), purpose("Unknown") {
+
+    }
+
     void SetName(string nick) { //Setter for item's name
         name = nick;
     }
@@ -112,7 +124,7 @@ void ShowQuest() { //Showing your current quest
     cout << "\nYour main quest is to " << quest << "." << endl;
 }
 
-void DefaultChoose(string infonpc1, string location1, NPC npc1) {
+void DefaultChoose(string infonpc1, string location1, NPC npc1) { //Default selection menu
     action = true;
 
     while (action) {
@@ -127,6 +139,7 @@ void DefaultChoose(string infonpc1, string location1, NPC npc1) {
             break;
         case '3':
             cout << "\nYou reached " << location1 << "." << endl;
+            action = false;
             break;
         case '4':
             cin.get();
@@ -198,6 +211,12 @@ int main()
     }
 
     DefaultChoose("Info about Sirbu", "Topala's Dungeon", Sirbu);
+
+    action = true;
+
+    while (action) {
+
+    }
 
     cin.get();
     return 0;
