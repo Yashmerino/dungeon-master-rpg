@@ -49,6 +49,35 @@ public:
 
 };
 
+class NPC {
+private:
+    string name = "noname";
+    int age = 0;
+    int weight = 0;
+    char sex = ' ';
+
+public:
+    void SetName(string nick) { //Setter for the name
+        name = nick;
+    }
+
+    void SetAge(int value) { //Setter for the age
+        age = value;
+    }
+
+    void SetWeight(int value) { //Setter for the weight
+        weight = value;
+    }
+
+    void SetSex(char type) { //Setter for the sex
+        sex = type;
+    }
+    void PrintInfo() { //Function to print info about the NPC
+        cout << endl;
+        cout << "NPC's name is: " << name << ".\nIt is " << age << " years old." << "\nIt weighs " << weight << " kg." << "\nIt's sex is: " << (char)toupper(sex) << endl;
+    }
+};
+
 void QuestUpdated(string task) { //Updatting the quest
     quest = task;
 }
@@ -77,6 +106,12 @@ int main()
     cout << "\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
     QuestUpdated("Talk with Sirbu.");
 
+    NPC Sirbu; //Creatting a NPC
+    Sirbu.SetName("Sirbu");
+    Sirbu.SetAge(19);
+    Sirbu.SetWeight(67);
+    Sirbu.SetSex('M');
+
     cout << "You reached the Gym." << endl;
     while (action) {
         cout << "1. Who are you?\n2. Who i'm i?" << endl;
@@ -85,6 +120,7 @@ int main()
         switch (choose1) {
         case '1':
             cout << "\nSirbu: I am Sirbu, i am the first DungeonBorn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
+            QuestUpdated("Visit Topala's Dungeon");
             cout << "2. Who i'm i?" << endl;
             cin >> choose2;
 
@@ -103,6 +139,7 @@ int main()
             switch (choose2) {
             case '1':
                 cout << "\nI am Sirbu, i am the first Dungeonborn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
+                QuestUpdated("Visit Topala's Dungeon");
                 break;
             }
 
@@ -110,6 +147,8 @@ int main()
         }
         action = false;
     }
+
+    
 
     cin.get();
     return 0;
