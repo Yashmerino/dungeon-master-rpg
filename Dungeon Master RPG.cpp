@@ -193,8 +193,16 @@ int DamageEnemy(Enemy& mob, DungeonMaster& dm) { //Attack while fighting
     return mob.GetHP() - dm.Attack();
 }
 
+int DamageHero(Enemy& mob, DungeonMaster& dm) { //Attack while fighting
+    return dm.GetHP() - mob.Attack();
+}
+
 int DefenseHero(Enemy& mob, DungeonMaster& dm) { //Defense while fighting
     return dm.GetHP() - mob.Attack();
+}
+
+int DefenseEnemy(Enemy& mob, DungeonMaster& dm) { //Defense while fighting
+    return mob.GetHP() - dm.Attack();
 }
 
 int main(){
@@ -273,18 +281,27 @@ int main(){
         switch (choose1) {
         case '1':
             DamageEnemy(skeleton1, hero);
+            DamageHero(skeleton1, hero);
             skeleton1.SetHP(DamageEnemy(skeleton1, hero));
+            hero.SetHP(DamageHero(skeleton1, hero));
             break;
         case '2':
             DefenseHero(skeleton1, hero);
+            DefenseEnemy(skeleton1, hero);
+            skeleton1.SetHP(DefenseEnemy(skeleton1, hero));
             hero.SetHP(DefenseHero(skeleton1, hero));
             break;
         }
 
         if (skeleton1.GetHP() <= 0) {
+            skeleton1.SetHP(0);
+            cout << "\nYour HP: " << hero.GetHP() << "\nSkeleton HP: " << skeleton1.GetHP() << endl;
+            cout << "\nYou killed the enemy!" << endl;
             action = false;
         }
         else if (hero.GetHP() <= 0) {
+            hero.SetHP(0);
+            cout << "\nYour HP: " << hero.GetHP() << "\nSkeleton HP: " << skeleton1.GetHP() << endl;
             cout << "\nYou died." << endl;
             cin.get();
             exit(0);
