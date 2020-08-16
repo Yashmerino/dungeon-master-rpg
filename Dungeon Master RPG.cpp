@@ -44,7 +44,7 @@ public:
 
     void PrintInfo() { //Function to print info about the character
         cout << endl;
-        cout << "Your character's name is: " << name << ".\nIt is " << age << " years old." << "\nIt weighs " << weight << " kg." << "\nIt's sex is: " << (char)toupper(sex) << endl;
+        cout << "Your character's name is: " << name << ".\nIt is " << age << " years old." << "\nIt weighs " << weight << " kg." << "\nIt's sex is: " << (char)toupper(sex) << "." << endl;
     }
 
 };
@@ -72,10 +72,12 @@ public:
     void SetSex(char type) { //Setter for the sex
         sex = type;
     }
+
     void PrintInfo() { //Function to print info about the NPC
         cout << endl;
-        cout << "NPC's name is: " << name << ".\nIt is " << age << " years old." << "\nIt weighs " << weight << " kg." << "\nIt's sex is: " << (char)toupper(sex) << endl;
+        cout << "NPC's name is: " << name << ".\nIt is " << age << " years old." << "\nIt weighs " << weight << " kg." << "\nIt's sex is: " << (char)toupper(sex) << "." << endl;
     }
+
 };
 
 class Item {
@@ -94,6 +96,12 @@ public:
     void SetPurpose(string type) { //Setter for item's purpose
         purpose = type;
     }
+
+    void PrintInfo() { //Function to print info about the item
+        cout << endl;
+        cout << "Item's name is: " << name << ".\nIt costs " << price << " gold." << "\nIt is for the " << purpose << "." << endl;
+    }
+
 };
 
 void QuestUpdated(string task) { //Updatting the quest
@@ -101,33 +109,26 @@ void QuestUpdated(string task) { //Updatting the quest
 }
 
 void ShowQuest() { //Showing your current quest
-    cout << "\nYour main quest is to " << quest << endl;
-}
-
-void ShowInventory() { //Showing your inventory
-        
+    cout << "\nYour main quest is to " << quest << "." << endl;
 }
 
 void DefaultChoose(string infonpc1, string location1, NPC npc1) {
     action = true;
 
     while (action) {
-        cout << "\n1. " << infonpc1 << "\n2. Your inventory.\n3. Check your current quest" << "\n4. Go to " << location1 << "\n5. Exit the game." << endl;
+        cout << "\n1. " << infonpc1 << ".\n2. Check your current quest." << "\n3. Go to " << location1 << ".\n4. Exit the game." << endl;
         cin >> choose1;
         switch (choose1) {
         case '1':
             npc1.PrintInfo();
             break;
         case '2':
-            ShowInventory();
-            break;
-        case '3':
             ShowQuest();
             break;
-        case '4':
-            cout << "You reached " << location1 << "." << endl;
+        case '3':
+            cout << "\nYou reached " << location1 << "." << endl;
             break;
-        case '5':
+        case '4':
             cin.get();
             exit(0);
         }
