@@ -82,7 +82,7 @@ class Item {
 private:
     string name = " "; //Item's name
     int price = 0; //Item's price
-    string attribute = " "; //Item's attribute. Attack, Defense, Quest.
+    string purpose = " "; //Item's attribute. Attack, Defense, Quest.
 
 public:
     void SetName(string nick) { //Setter for item's name
@@ -91,8 +91,8 @@ public:
     void SetPrice(int value) { //Setter for item's price
         price = value;
     }
-    void SetAttribute(string type) { //Setter for item's attribute
-        attribute = type;
+    void SetPurpose(string type) { //Setter for item's purpose
+        purpose = type;
     }
 };
 
@@ -101,11 +101,37 @@ void QuestUpdated(string task) { //Updatting the quest
 }
 
 void ShowQuest() { //Showing your current quest
-    cout << "Your main quest is to " << quest << endl;
+    cout << "\nYour main quest is to " << quest << endl;
 }
 
 void ShowInventory() { //Showing your inventory
         
+}
+
+void DefaultChoose(string infonpc1, string location1, NPC npc1) {
+    action = true;
+
+    while (action) {
+        cout << "\n1. " << infonpc1 << "\n2. Your inventory.\n3. Check your current quest" << "\n4. Go to " << location1 << "\n5. Exit the game." << endl;
+        cin >> choose1;
+        switch (choose1) {
+        case '1':
+            npc1.PrintInfo();
+            break;
+        case '2':
+            ShowInventory();
+            break;
+        case '3':
+            ShowQuest();
+            break;
+        case '4':
+            cout << "You reached " << location1 << "." << endl;
+            break;
+        case '5':
+            cin.get();
+            exit(0);
+        }
+    }
 }
 
 int main()
@@ -125,7 +151,7 @@ int main()
 
     hero.PrintInfo(); //Printing info about the character
     
-    cout << "\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
+    cout << "\n\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
     QuestUpdated("Talk with Sirbu.");
 
     NPC Sirbu; //Creatting a NPC
@@ -170,7 +196,7 @@ int main()
         action = false;
     }
 
-    
+    DefaultChoose("Info about Sirbu", "Topala's Dungeon", Sirbu);
 
     cin.get();
     return 0;
