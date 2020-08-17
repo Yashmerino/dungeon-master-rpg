@@ -2,12 +2,13 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
 string quest; //Global vars
-char choose1;
-char choose2;
+int choose1;
+int choose2;
 bool action = true;
 
 class DungeonMaster { //Dungeon Master class
@@ -156,12 +157,10 @@ public:
     }
 
     int Attack() { //Attacking
-        srand(time(NULL));
-        return rand() % 50;
+        return rand() % 100;
     }
 
     int Defense() { //Defending
-        srand(time(NULL));
         return rand() % 100;
     }
 
@@ -182,17 +181,17 @@ void DefaultChoose(string infonpc1, string location1, NPC npc1) { //Default sele
         cout << "\n1. " << infonpc1 << ".\n2. Check your current quest." << "\n3. Go to " << location1 << ".\n4. Exit the game." << endl;
         cin >> choose1;
         switch (choose1) {
-        case '1':
+        case 1:
             npc1.PrintInfo();
             break;
-        case '2':
+        case 2:
             ShowQuest();
             break;
-        case '3':
+        case 3:
             cout << "\nYou reached " << location1 << "." << endl;
             action = false;
             break;
-        case '4':
+        case 4:
             cin.get();
             exit(0);
         }
@@ -200,68 +199,83 @@ void DefaultChoose(string infonpc1, string location1, NPC npc1) { //Default sele
 }
 
 int DamageEnemy(Enemy& mob, DungeonMaster& dm) { //Attack while fighting
-    return mob.GetHP() - dm.Attack();
+    return mob.GetHP() - abs((dm.Attack() - mob.Defense()));
 }
 
 int DamageHero(Enemy& mob, DungeonMaster& dm) { //Attack while fighting
-    return dm.GetHP() - mob.Attack();
+    return dm.GetHP() - abs((mob.Attack() - dm.Defense()));
 }
 
 int DefenseHero(Enemy& mob, DungeonMaster& dm) { //Defense while fighting
-    return dm.GetHP() - mob.Attack();
+    return dm.GetHP() - (mob.Attack() / 5);
 }
 
 int DefenseEnemy(Enemy& mob, DungeonMaster& dm) { //Defense while fighting
-    return mob.GetHP() - dm.Attack();
+    return mob.GetHP() - (dm.Attack() / 5);
 }
 
 void Duel(Enemy& mob, DungeonMaster& dm) { //Duel function
     action = true;
     while (action) {
-        cout << "\nYour HP: " << dm.GetHP() << "\nSkeleton HP: " << mob.GetHP() << endl;
+        cout << "\nYour HP: " << dm.GetHP() << "\nEnemy's HP: " << mob.GetHP() << endl;
         cout << "1. Attack 2. Defense" << endl;
         cin >> choose1;
 
         switch (choose1) {
-        case '1':
-            mob.SetHP(DamageEnemy(mob, dm));
-            dm.SetHP(DamageHero(mob, dm));
-            break;
-        case '2':
+        case 1:
+            choose2 = rand() % 2;
+
+            if (choose2 == 1) {
+                mob.SetHP(DamageEnemy(mob, dm));
+                dm.SetHP(DamageHero(mob, dm));
+            }
+            else {
             mob.SetHP(DefenseEnemy(mob, dm));
-            dm.SetHP(DefenseHero(mob, dm));
-            break;
         }
 
-        if (dm.GetHP() <= 0) {
+            break;
+        case 2:        
+            choose2 = rand() % 2;
+
+            if (choose2 == 1)
+                dm.SetHP(DefenseHero(mob, dm));
+            else
+                break;
+
+            break;
+        }
+ 
+        if (mob.GetHP() <= 0) {
+            mob.SetHP(0);
+            if (dm.GetHP() <= 0) {
+                dm.SetHP(0);
+                cout << "\nYour HP: " << dm.GetHP() << "\nEnemy's HP: " << mob.GetHP() << endl;
+                cout << "\nYou killed the enemy but died from bleeding!" << endl;
+                cin.get();
+                exit(0);
+            }
+            cout << "\nYour HP: " << dm.GetHP() << "\nEnemy's HP: " << mob.GetHP() << endl;
+            cout << "\nYou killed the enemy!" << endl;
+            action = false;
+        }
+        else if (dm.GetHP() <= 0) {
             dm.SetHP(0);
             if (mob.GetHP() <= 0) {
                 mob.SetHP(0);
             }
-            cout << "\nYour HP: " << dm.GetHP() << "\nSkeleton HP: " << mob.GetHP() << endl;
+            cout << "\nYour HP: " << dm.GetHP() << "\nEnemy's HP: " << mob.GetHP() << endl;
             cout << "\nYou died." << endl;
             cin.get();
             exit(0);
-            
+
         }
-        else if (mob.GetHP() <= 0) {
-            mob.SetHP(0);
-            if (dm.GetHP() <= 0) {
-                dm.SetHP(0);
-                cout << "\nYour HP: " << dm.GetHP() << "\nSkeleton HP: " << mob.GetHP() << endl;
-                cout << "\nYou killed the enemy and died from bleeding!" << endl;
-                cin.get();
-                exit(0);
-            }
-            cout << "\nYour HP: " << dm.GetHP() << "\nSkeleton HP: " << mob.GetHP() << endl;
-            cout << "\nYou killed the enemy!" << endl;
-            action = false;
-        } 
     }
     dm.SetHP(100);
 }
 
-int main(){
+int main() {
+
+    srand(time(NULL)); //Random
 
     DungeonMaster hero; //Creatting hero
     cout << "Welcome to the Dungeon Master RPG.\nCreate your character.\nType a name for it: ";
@@ -277,7 +291,7 @@ int main(){
     //hero.SetSex(); //Setting it's sex
 
     //hero.PrintInfo(); //Printing info about the character
-    
+
     cout << "\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
     QuestUpdated("Talk with Sirbu.");
 
@@ -287,37 +301,37 @@ int main(){
     Sirbu.SetWeight(67);
     Sirbu.SetSex('M');
 
-    cout << "You reached the Gym." << endl;
+    cout << "You reached the Gym." << endl; //Gameplay
     while (action) {
         cout << "1. Who are you?\n2. Who i'm i?" << endl;
         cin >> choose1;
 
         switch (choose1) {
-        case '1':
+        case 1:
             cout << "\nSirbu: I am Sirbu, i am the first DungeonBorn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
             QuestUpdated("Visit Topala's Dungeon");
             cout << "2. Who i'm i?" << endl;
             cin >> choose2;
 
             switch (choose2) {
-            case '2':
+            case 2:
                 cout << "\nSirbu: You are the last DungeonBorn, you were summoned by the Gamart to save our world!\n" << endl;
                 break;
             }
             break;
-        case '2':
+        case 2:
             cout << "\nYou are the last DungeonBorn, you were summoned by the Gamart to save our world!\n" << endl;
             cout << "1. Who are you?" << endl;
             cin >> choose2;
 
             switch (choose2) {
-            case '1':
-                cout << "\nI am Sirbu, i am the first Dungeonborn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
+            case 1:
+                cout << "\nI am Sirbu, i am the first DungeonBorn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
                 QuestUpdated("Visit Topala's Dungeon");
                 break;
             }
 
-            break; 
+            break;
         }
         action = false;
     }
