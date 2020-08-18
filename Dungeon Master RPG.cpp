@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -11,6 +12,39 @@ int choose1;
 int choose2;
 bool action = true;
 
+class Item {
+private:
+    string name; //Item's name
+    int price; //Item's price
+    string purpose; //Item's attribute. Attack, Defense, Quest.
+
+public:
+    Item() : name("Unknown"), price(0), purpose("Unknown") {
+
+    }
+
+    string GetName() { //Getter for the name of the item
+        return name;
+    }
+
+    void SetName(string nick) { //Setter for item's name
+        name = nick;
+    }
+    void SetPrice(int value) { //Setter for item's price
+        price = value;
+    }
+    void SetPurpose(string type) { //Setter for item's purpose
+        purpose = type;
+    }
+
+    void PrintInfo() { //Function to print info about the item
+        cout << endl;
+        cout << "Item's name is: " << name << ".\nIt costs " << price << " gold." << "\nIt is for the " << purpose << "." << endl;
+    }
+
+};
+
+
 class DungeonMaster { //Dungeon Master class
 private:
     string name; //Vars
@@ -18,14 +52,34 @@ private:
     int age;
     int weight;
     int hp;
+    vector<Item> Inventory;
 
 public:
     DungeonMaster() : name("Van"), sex('M'), age(20), weight(80), hp(100) {
 
     }
 
+    void GetInventory() { //Getter for the inventory
+        cout << endl;
+        for (int slot = 0; slot < Inventory.size(); slot++) {
+            cout << Inventory[slot].GetName() << endl;
+        }
+        if (Inventory.size() == 0) {
+            cout << "Your inventory is empty!" << endl;
+        }
+    }
+
     int GetHP() { //Getter for the HP
         return hp;
+    }
+
+    void SetInventory(int slot, Item stuff) { //Setter for the inventory
+        if (slot >= Inventory.size()) {
+            Inventory.resize(slot+1);
+        }
+
+        size_t vSize = Inventory.size();
+        Inventory[slot] = stuff;
     }
 
     void SetHP(int value) { //Setter for the HP
@@ -111,34 +165,6 @@ public:
 
 };
 
-class Item {
-private:
-    string name; //Item's name
-    int price; //Item's price
-    string purpose; //Item's attribute. Attack, Defense, Quest.
-
-public:
-    Item() : name("Unknown"), price(0), purpose("Unknown") {
-
-    }
-
-    void SetName(string nick) { //Setter for item's name
-        name = nick;
-    }
-    void SetPrice(int value) { //Setter for item's price
-        price = value;
-    }
-    void SetPurpose(string type) { //Setter for item's purpose
-        purpose = type;
-    }
-
-    void PrintInfo() { //Function to print info about the item
-        cout << endl;
-        cout << "Item's name is: " << name << ".\nIt costs " << price << " gold." << "\nIt is for the " << purpose << "." << endl;
-    }
-
-};
-
 class Enemy {
 private:
     int hp;
@@ -174,11 +200,11 @@ void ShowQuest() { //Showing your current quest
     cout << "\nYour main quest is to " << quest << "." << endl;
 }
 
-void DefaultChoose(string infonpc1, string location1, NPC npc1) { //Default selection menu
+void DefaultChoose(string infonpc1, string location1, NPC npc1, DungeonMaster dm) { //Default selection menu
     action = true;
 
     while (action) {
-        cout << "\n1. " << infonpc1 << ".\n2. Check your current quest." << "\n3. Go to " << location1 << ".\n4. Exit the game." << endl;
+        cout << "\n1. " << infonpc1 << ".\n2. Check your current quest." << "\n3. Go to " << location1 << ".\n4. Your inventory" << ".\n5. Exit the game." << endl;
         cin >> choose1;
         switch (choose1) {
         case 1:
@@ -192,6 +218,9 @@ void DefaultChoose(string infonpc1, string location1, NPC npc1) { //Default sele
             action = false;
             break;
         case 4:
+            dm.GetInventory();
+            break;
+        case 5:
             cin.get();
             exit(0);
         }
@@ -290,7 +319,7 @@ int main() {
     //cout << "It's sex (only F or M): ";
     //hero.SetSex(); //Setting it's sex
 
-    //hero.PrintInfo(); //Printing info about the character
+    hero.PrintInfo(); //Printing info about the character
 
     cout << "\nYou are DungeonBorn. Your destiny is to find and clear every dungeon in the world!\nGo talk with Sirbu." << endl;
     QuestUpdated("Talk with Sirbu.");
@@ -336,7 +365,9 @@ int main() {
         action = false;
     }
 
-    DefaultChoose("Info about Sirbu", "Topala's Dungeon", Sirbu);
+    Item Sword;
+    hero.SetInventory(0, Sword);
+    DefaultChoose("Info about Sirbu", "Topala's Dungeon", Sirbu, hero);
 
     cout << "\nThere is a skeleton! You need to kill him!" << endl;
     action = true;
