@@ -136,7 +136,7 @@ public:
 
     int Attack() { //Attacking
         srand(time(NULL));
-        return rand() % 10000;
+        return rand() % 100;
     }
 
     int Defense() { //Defending
@@ -215,11 +215,11 @@ public:
     }
 
     int Attack() { //Attacking
-        return rand() % 20;
+        return rand() % 70;
     }
 
     int Defense() { //Defending
-        return rand() % 50;
+        return rand() % 30;
     }
 
 };
