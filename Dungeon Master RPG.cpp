@@ -44,7 +44,6 @@ public:
 
 };
 
-
 class DungeonMaster { //Dungeon Master class
 private:
     string name; //Vars
@@ -128,6 +127,10 @@ public:
         return rand() % 100;
     }
 
+    int Heal() { //Heal
+        return hp + 30;
+    }
+
 };
 
 class NPC {
@@ -200,7 +203,7 @@ void ShowQuest() { //Showing your current quest
     cout << "\nYour main quest is to " << quest << "." << endl;
 }
 
-void DefaultChoose(string infonpc1, string location1, NPC npc1, DungeonMaster dm) { //Default selection menu
+void DefaultChoose(string infonpc1, string location1, NPC& npc1, DungeonMaster& dm) { //Default selection menu
     action = true;
 
     while (action) {
@@ -245,10 +248,18 @@ int DefenseEnemy(Enemy& mob, DungeonMaster& dm) { //Defense while fighting
 
 void Duel(Enemy& mob, DungeonMaster& dm) { //Duel function
     action = true;
+    int healcount = 0;
     while (action) {
         cout << "\nYour HP: " << dm.GetHP() << "\nEnemy's HP: " << mob.GetHP() << endl;
-        cout << "1. Attack 2. Defense" << endl;
+        cout << "1. Attack 2. Defense 3. Heal(+30hp)" << endl;
         cin >> choose1;
+
+        while (healcount == 1 && choose1 == 3) {
+            cout << endl;
+            cout << "You've already healed yourself!" << endl;
+            cout << "1. Attack 2. Defense 3. Heal(+30hp)" << endl;
+            cin >> choose1;
+        }
 
         switch (choose1) {
         case 1:
@@ -272,7 +283,21 @@ void Duel(Enemy& mob, DungeonMaster& dm) { //Duel function
                 break;
 
             break;
+        case 3:
+            healcount = 1;
+
+            if (dm.GetHP() == 100) {
+                healcount = 0;
+            }
+
+            dm.SetHP(dm.Heal());
+
+            if (dm.GetHP() > 100) {
+                dm.SetHP(100);
+                break;
+            }
         }
+
  
         if (mob.GetHP() <= 0) {
             mob.SetHP(0);
@@ -308,16 +333,16 @@ int main() {
 
     DungeonMaster hero; //Creatting hero
     cout << "Welcome to the Dungeon Master RPG.\nCreate your character.\nType a name for it: ";
-    //hero.SetName(); //Setting it's name
+    hero.SetName(); //Setting it's name
 
-    //cout << "It's age: ";
-    //hero.SetAge(); //Setting it's age
+    cout << "It's age: ";
+    hero.SetAge(); //Setting it's age
 
-    //cout << "It's weight: ";
-    //hero.SetWeight(); //Setting it's weight
+    cout << "It's weight: ";
+    hero.SetWeight(); //Setting it's weight
 
-    //cout << "It's sex (only F or M): ";
-    //hero.SetSex(); //Setting it's sex
+    cout << "It's sex (only F or M): ";
+    hero.SetSex(); //Setting it's sex
 
     hero.PrintInfo(); //Printing info about the character
 
@@ -365,8 +390,6 @@ int main() {
         action = false;
     }
 
-    Item Sword;
-    hero.SetInventory(0, Sword);
     DefaultChoose("Info about Sirbu", "Topala's Dungeon", Sirbu, hero);
 
     cout << "\nThere is a skeleton! You need to kill him!" << endl;
