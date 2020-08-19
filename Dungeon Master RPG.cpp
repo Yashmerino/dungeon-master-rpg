@@ -558,7 +558,7 @@ int main() {
     hero.DeleteInventory(1);
 
     NPC Fratescu("Fratescu", 'F', 17, 100);
-    Fratescu.SetStory("Fratescu is a Gamart's friend. He was his right arm until couple days ago, when he betrayed us and decided to kill all us");
+    Fratescu.SetStory("Fratescu is a Gamart's friend. He was his right arm until couple days ago, when he betrayed us and decided to kill us all");
     QuestUpdated("kill Fratescu");
     DefaultChoose("Info about Fratescu", "Fratescu's dungeon", Fratescu, hero);
 
