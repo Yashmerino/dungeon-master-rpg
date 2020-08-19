@@ -95,6 +95,10 @@ public:
         Inventory[slot] = stuff;
     }
 
+    void DeleteInventory(int slot) { //Deletes last item from the inventory
+        Inventory.erase(Inventory.begin() + slot);
+    }
+
     void SetHP(int value) { //Setter for the HP
         hp = value;
     }
@@ -132,12 +136,12 @@ public:
 
     int Attack() { //Attacking
         srand(time(NULL));
-        return rand() % 100;
+        return rand() % 10000;
     }
 
     int Defense() { //Defending
         srand(time(NULL));
-        return rand() % 100;
+        return rand() % 50;
     }
 
     int Heal() { //Heal
@@ -211,11 +215,11 @@ public:
     }
 
     int Attack() { //Attacking
-        return rand() % 80;
+        return rand() % 20;
     }
 
     int Defense() { //Defending
-        return rand() % 100;
+        return rand() % 50;
     }
 
 };
@@ -253,6 +257,7 @@ void DefaultChoose(string infonpc1, string location1, NPC& npc1, DungeonMaster& 
             while (choose2 != 9) {
                 cin >> choose2;
                 if (choose2 == 9) {
+                    cout << endl;
                     break;
                 }
                 else {
@@ -270,11 +275,23 @@ void DefaultChoose(string infonpc1, string location1, NPC& npc1, DungeonMaster& 
 }
 
 int DamageEnemy(Enemy& mob, DungeonMaster& dm) { //Attack while fighting
-    return mob.GetHP() - abs((dm.Attack() - mob.Defense()));
+    int damage = dm.Attack() - mob.Defense();
+
+    if (damage <= 0) {
+        return mob.GetHP();
+    }
+
+    return mob.GetHP() - damage;
 }
 
 int DamageHero(Enemy& mob, DungeonMaster& dm) { //Attack while fighting
-    return dm.GetHP() - abs((mob.Attack() - dm.Defense()));
+    int damage = mob.Attack() - dm.Defense();
+
+    if (damage <= 0) {
+        return dm.GetHP();
+    }
+
+    return dm.GetHP() - damage;
 }
 
 int DefenseHero(Enemy& mob, DungeonMaster& dm) { //Defense while fighting
@@ -388,9 +405,9 @@ int main() {
     cout << "\nYou are Dungeonborn. Your destiny is to save the world. But from who?\nGo talk with Sirbu." << endl;
 
     NPC Sirbu("Sirbu", 'M', 19, 67);
-    Sirbu.SetStory("Sirbu is the first Dungeonborn. His destiny is to save our world from Fratescu, but he chose to write a game engine called: Sauce Game Engine. Due to this, you have to save the world instead of Sirbu");
+    Sirbu.SetStory("Sirbu is the first Dungeonborn. His destiny is to save our world from Fratescu, but instead of this he chose to write a game engine called: Sauce Game Engine. Due to this, now you have to save the world instead of Sirbu");
 
-    cout << "\nYou reached the Gym." << endl << endl;
+    cout << "\nYou reached the Gym." << endl;
     while (action) {
         cout << "1. Who are you?\n2. Who i'm i?" << endl;
         cin >> choose1;
@@ -481,15 +498,118 @@ int main() {
     cout << "Gamart: Imagine not knowing your summoner. I'm Gamart, i need to give you something, take this. You'll need to combine it with Topala's cum to learn the power of gods!" << endl; cin.get();
     cout << "You got fisting recipe!" << endl; cin.get();
     cout << hero.GetName() << ": Thanks, but can i ask you? Who is Fratescu? I just know that i need to save the world from him." << endl; cin.get();
-    cout << "Gamart: Dungeonborn... I can't say it right now, you'll get it after you'll kill him. We were good friends with him, but everything changes. He decided to become the strongest human and become the new king of the world" << endl; cin.get();
-    cout << hero.GetName() << ": But where does he get this power from?" << endl; cin.get();
+    cout << "Gamart: Dungeonborn... I can't say it right now, you'll get it after you'll kill him. We were good friends with him, but everything changes. He decided to become the strongest human and the new king of the world" << endl; cin.get();
+    cout << hero.GetName() << ": But where did he get this power from?" << endl; cin.get();
     cout << "Gamart: He always had it... but we never thought he will use it against us. Enter the Bogdan's stadium, stop wasting time!" << endl; cin.get();
 
-    Item Fisting_recipe("Fisting recipe", 1000, "to combine it it Topala's cum, to learn the power of gods");
+    Item Fisting_recipe("Fisting recipe", 1000, "to combine it with Topala's cum, to learn the power of gods");
     hero.SetInventory(1, Fisting_recipe);
 
     QuestUpdated("enter Bogdan's stadium");
     DefaultChoose("Info about Gamart", "Bogdan's stadium", Gamart, hero);
+    QuestUpdated("find Topala and get his cum");
+
+    cout << "\nThere are 2 caini a lui Bogdan! You have to fight them!" << endl;
+    action = true;
+    Enemy caine1, caine2;
+    Duel(caine1, hero);
+    cout << "Next enemy:" << endl;
+    Duel(caine2, hero);
+
+    NPC Bogdan("Bogdan", 'M', 15, 57);
+    Bogdan.SetStory("Bogdan is a Topala's friend, he is a famous football player. His legs kick can kill any human. Do you really believe in what you say? Cringe");
+    DefaultChoose("Info about Bogdan", "next room", Bogdan, hero);
+
+    cout << "\nThere is a mama lui Bogdan! You have to kill her!" << endl;
+    action = true;
+    Enemy mama_lui_bogdan;
+    Duel(mama_lui_bogdan, hero);
+
+    cout << endl;
+    DefaultChoose("Info about Bogdan", "last room", Bogdan, hero);
+
+    cout << "\nTopala: Hey, who are you? How did you manage to get here?" << endl; cin.get(); cin.get();
+    cout << "Bogdan: I feel his power. He's a Dungeonborn?" << endl; cin.get();
+    cout << "Topala: What? A new Dungeonborn? I thought Sirbu was the single one, after Fratescu refused his Dungeonborn power and became Dungeongod" << endl; cin.get();
+    cout << hero.GetName() << ": Topala! I need your cum to kill Fratescu, please give it to me!" << endl; cin.get();
+    cout << "Topala: Why did you decide that it'll help you?" << endl; cin.get();
+    cout << hero.GetName() << ": Sirbu told me that! I don't think that he lied" << endl; cin.get();
+    cout << "Topala: Sirbu? He's still alive? Hah..." << endl; cin.get();
+    cout << hero.GetName() << ": So? May i get it?" << endl; cin.get();
+    cout << "Topala: Yeah, of course, wait a little bit." << endl; cin.get();
+    cout << "You got Topala's cum!" << endl; cin.get();
+
+    Item TopalaCum("Topala's cum", 750, "to combine it with Fisting recipe, to learn the power of gods");
+    hero.SetInventory(2, TopalaCum);
+    QuestUpdated("learn the power of gods");
+
+    DefaultChoose("Info about Sirbu", "Gym", Sirbu, hero);
+
+    cout << "\nSirbu: Hey there Dungeonborn. Any news?" << endl; cin.get(); cin.get();
+    cout << hero.GetName() << ": Yes! I got Topala's cum and Fisting recipe!" << endl; cin.get();
+    cout << "Sirbu: Oh yeah, i forgot about the Fisting recipe, great! Give them to me, i'll combine them." << endl; cin.get();
+    cout << "You lost Topala's cum!" << endl; cin.get();
+    cout << "You lost Fisting recipe!" << endl; cin.get();
+    cout << "You learnt power of gods! (Shout: Po wel nah)" << endl; cin.get();
+    cout << "Sirbu: You're ready, go to Fratescu's dungeon, he is there, just use your shout and he'll die immediately!" << endl; cin.get();
+
+    hero.DeleteInventory(2);
+    hero.DeleteInventory(1);
+
+    NPC Fratescu("Fratescu", 'F', 17, 100);
+    Fratescu.SetStory("Fratescu is a Gamart's friend. He was his right arm until couple days ago, when he betrayed us and decided to kill all us");
+    QuestUpdated("kill Fratescu");
+    DefaultChoose("Info about Fratescu", "Fratescu's dungeon", Fratescu, hero);
+
+    cout << "\nThere is one german! You have to kill him!" << endl;
+    action = true;
+    Enemy german;
+    Duel(german, hero);
+
+    cout << endl;
+    DefaultChoose("Info about Fratescu", "next room", Fratescu, hero);
+
+    cout << "\nThere are 2 Hitlers! You have to fight them!" << endl;
+    action = true;
+    Enemy hitler1, hitler2;
+    Duel(hitler1, hero);
+    cout << "Next enemy:" << endl;
+    Duel(hitler2, hero);
+
+    cout << endl;
+    DefaultChoose("Info about Fratescu", "next room", Fratescu, hero);
+
+    cout << "\nThere are 3 Drobcas! You have to fight them!" << endl;
+    action = true;
+    Enemy drobca1, drobca2, drobca3;
+    Duel(drobca1, hero);
+    cout << "Next enemy:" << endl;
+    Duel(drobca2, hero);
+    cout << "Next enemy:" << endl;
+    Duel(drobca3, hero);
+
+    cout << endl;
+    DefaultChoose("Info about Fratescu", "Fratescu's lair", Fratescu, hero);
+
+    cout << "\nFratescu:..." << endl; cin.get(); cin.get();
+    cout << hero.GetName() << ": Nothing? You don't even have words?" << endl; cin.get();
+    cout << "Fratescu: Dungeonborn, you still didn't understand?" << endl; cin.get();
+    cout << hero.GetName() << ": What do you mean? What should i understand? I came here to kill you!" << endl; cin.get();
+    cout << "Fratescu: Do it then! I always knew that if i'll ever die, i'll do it with my hands." << endl; cin.get();
+    cout << hero.GetName() << ": What the hell are you talking about?! You should stop fooling around, you're about to die!" << endl; cin.get();
+    cout << "Fratescu: I have no choice..." << endl; cin.get();
+    cout << "Dungeonborn used the shout." << endl; cin.get();
+    cout << "PO WEL NAH!" << endl; cin.get();
+    cout << "Fratescu has died." << endl; cin.get();
+    cout << "Dungeonborn SAME" << endl; cin.get();
+    cout << "Dungeonborn " << hero.GetName() << " was Fratescu from the past..." << endl; cin.get();
+    cout << "The past when he'd never thought that he'll ever want to destroy the whole world." << endl; cin.get();
+    cout << "Gamart knew about all this. He knew that only Fratescu can kill himself." << endl; cin.get();
+    cout << "Another Dungeonborn would sent him to the futute, but not kill him." << endl; cin.get();
+    cout << "\nYOU SAVED THE WORLD." << endl; cin.get();
+    cout << "\nTHANKS FOR PLAYING MY GAME!" << endl; cin.get();
+    cout << "\nTHAT WAS DUNGEON MASTER RPG BY ARTIOM BOZIEAC!" << endl; cin.get();
+    cout << "\nThe End..." << endl;
 
     cin.get();
     return 0;
