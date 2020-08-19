@@ -402,21 +402,22 @@ int main() {
 
     hero.PrintInfo(); //Printing info about the character
 
-    cout << "\nYou are Dungeonborn. Your destiny is to save the world. But from who?\nGo talk with Sirbu." << endl;
+    cout << "\nYou are Dungeonborn. Your destiny is to save the world. But from who? Go talk with Sirbu about this." << endl;
 
     NPC Sirbu("Sirbu", 'M', 19, 67);
     Sirbu.SetStory("Sirbu is the first Dungeonborn. His destiny is to save our world from Fratescu, but instead of this he chose to write a game engine called: Sauce Game Engine. Due to this, now you have to save the world instead of Sirbu");
 
     cout << "\nYou reached the Gym." << endl;
+    cout << endl;
     while (action) {
-        cout << "1. Who are you?\n2. Who i'm i?" << endl;
+        cout << "1. Who are you?\n2. Who I am?" << endl;
         cin >> choose1;
 
         switch (choose1) {
         case 1:
             cout << "\nSirbu: I am Sirbu, i am the first Dungeonborn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
             QuestUpdated("visit Topala's Dungeon");
-            cout << "2. Who i'm i?" << endl;
+            cout << "2. Who I am?" << endl;
             cin >> choose2;
 
             switch (choose2) {
