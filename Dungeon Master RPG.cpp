@@ -2,7 +2,6 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
-#include <cmath>
 #include <vector>
 
 using namespace std;
@@ -78,7 +77,7 @@ public:
 
     void GetItem(int slot) { //Getter for the item
         if (slot >= Inventory.size()) {
-            cout << "\nError: There is nothing: ";
+            cout << "\nError. There is nothing: ";
         }
         else {
             Inventory[slot].PrintInfo();
@@ -364,11 +363,11 @@ void Duel(Enemy& mob, DungeonMaster& dm) { //Duel function
 
             while (choose1 != "1" && choose1 != "2" && choose1 != "3") {
                 if (!CheckInteger(choose1)) {
-                    cout << "\nError. Only a number from 1 to 5: ";
+                    cout << "\nError. Only a number from 1 to 3: ";
                     cin >> choose1;
                 }
                 else {
-                    cout << "\nError. Only a number from 1 to 5: ";
+                    cout << "\nError. Only a number from 1 to 3: ";
                     cin >> choose1;
                 }
             }
