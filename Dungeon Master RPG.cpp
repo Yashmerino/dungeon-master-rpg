@@ -8,9 +8,11 @@
 using namespace std;
 
 string quest; //Global vars
-int choose1;
-int choose2;
+string choose1 = "0";
+string choose2 = "0";
 bool action = true;
+
+bool CheckInteger(string str);
 
 class Item {
 private:
@@ -54,13 +56,13 @@ class DungeonMaster { //Dungeon Master class
 private:
     string name; //Vars
     char sex;
-    int age;
-    int weight;
+    string age;
+    string weight;
     int hp;
     vector<Item> Inventory;
 
 public:
-    DungeonMaster() : name("Van"), sex('M'), age(20), weight(80), hp(100) { //Constructor
+    DungeonMaster() : name("Van"), sex('M'), age("20"), weight("80"), hp(100) { //Constructor
 
     }
 
@@ -75,7 +77,12 @@ public:
     }
 
     void GetItem(int slot) { //Getter for the item
-        Inventory[slot].PrintInfo();
+        if (slot >= Inventory.size()) {
+            cout << "\nError: There is nothing: ";
+        }
+        else {
+            Inventory[slot].PrintInfo();
+        }
     }
 
     int GetHP() { //Getter for the HP
@@ -88,7 +95,7 @@ public:
 
     void SetInventory(int slot, Item stuff) { //Setter for the inventory
         if (slot >= Inventory.size()) {
-            Inventory.resize(slot+1);
+            Inventory.resize(slot + 1);
         }
 
         size_t vSize = Inventory.size();
@@ -110,15 +117,27 @@ public:
     }
 
     void SetAge() { //Setter for the age
-        int value;
+        string value;
         cin >> value;
-        age = value;
+        while (!CheckInteger(value)) {
+            cout << "Error. Only a number: ";
+            cin >> value;
+            if (CheckInteger(value)) {
+                age = value;
+            }
+        }
     }
 
     void SetWeight() { //Setter for the weight
-        int value;
+        string value;
         cin >> value;
-        weight = value;
+        while (!CheckInteger(value)) {
+            cout << "Error. Only a number: ";
+            cin >> value;
+            if (CheckInteger(value)) {
+                age = value;
+            }
+        }
     }
 
     void SetSex() { //Setter for the sex
@@ -127,7 +146,6 @@ public:
             cout << "Error. Only F or M: ";
             cin >> sex;
         }
-
     }
 
     void PrintInfo() { //Printing info about the character
@@ -237,8 +255,20 @@ void DefaultChoose(string infonpc1, string location1, NPC& npc1, DungeonMaster& 
 
     while (action) {
         cout << "1. " << infonpc1 << ".\n2. Check your current quest." << "\n3. Go to " << location1 << ".\n4. Your inventory" << ".\n5. Exit the game." << endl;
+
         cin >> choose1;
-        switch (choose1) {
+        while (choose1 != "1" && choose1 != "2" && choose1 != "3" && choose1 != "4" && choose1 != "5") {
+            if (!CheckInteger(choose1)) {
+                cout << "\nError. Only a number from 1 to 5: ";
+                cin >> choose1;
+            }
+            else {
+                cout << "\nError. Only a number from 1 to 5: ";
+                cin >> choose1;
+            }
+        }
+
+        switch (stoi(choose1)) {
         case 1:
             npc1.PrintInfo();
             break;
@@ -252,19 +282,24 @@ void DefaultChoose(string infonpc1, string location1, NPC& npc1, DungeonMaster& 
         case 4:
             dm.GetInventory();
             cout << "You can check item's information by choosing it's slot. Type 9 to close the inventory." << endl;
-            choose2 = 0;
 
-            while (choose2 != 9) {
+            do {
                 cin >> choose2;
-                if (choose2 == 9) {
+
+             while (!CheckInteger(choose2)) {
+                    cout << "\nError. Only a number: ";
+                    cin >> choose2;
+                }
+
+                if (choose2 == "9") {
                     cout << endl;
                     break;
                 }
                 else {
-                    dm.GetItem(choose2);
-                    choose2 = 0;
+                    dm.GetItem(stoi(choose2));
                 }
             }
+            while (choose2 != "9");
 
             break;
         case 5:
@@ -310,18 +345,41 @@ void Duel(Enemy& mob, DungeonMaster& dm) { //Duel function
         cout << "1. Attack 2. Defense 3. Heal(+30hp)" << endl;
         cin >> choose1;
 
-        while (healcount == 1 && choose1 == 3) {
+        while (choose1 != "1" && choose1 != "2" && choose1 != "3") {
+            if (!CheckInteger(choose1)) {
+                cout << "\nError. Only a number from 1 to 3: ";
+                cin >> choose1;
+            }
+            else {
+                cout << "\nError. Only a number from 1 to 3: ";
+                cin >> choose1;
+            }
+        }
+
+        while (healcount == 1 && choose1 == "3") {
             cout << endl;
             cout << "You've already healed yourself!" << endl;
             cout << "1. Attack 2. Defense 3. Heal(+30hp)" << endl;
             cin >> choose1;
+
+            while (choose1 != "1" && choose1 != "2" && choose1 != "3") {
+                if (!CheckInteger(choose1)) {
+                    cout << "\nError. Only a number from 1 to 5: ";
+                    cin >> choose1;
+                }
+                else {
+                    cout << "\nError. Only a number from 1 to 5: ";
+                    cin >> choose1;
+                }
+            }
+
         }
 
-        switch (choose1) {
+        switch (stoi(choose1)) {
         case 1:
-            choose2 = rand() % 2;
+            choose2 = to_string(rand() % 2);
 
-            if (choose2 == 1) {
+            if (choose2 == "1") {
                 mob.SetHP(DamageEnemy(mob, dm));
                 dm.SetHP(DamageHero(mob, dm));
             }
@@ -331,9 +389,9 @@ void Duel(Enemy& mob, DungeonMaster& dm) { //Duel function
 
             break;
         case 2:        
-            choose2 = rand() % 2;
+            choose2 = to_string(rand() % 2);
 
-            if (choose2 == 1)
+            if (choose2 == "1")
                 dm.SetHP(DefenseHero(mob, dm));
             else
                 break;
@@ -383,6 +441,14 @@ void Duel(Enemy& mob, DungeonMaster& dm) { //Duel function
     dm.SetHP(100);
 }
 
+bool CheckInteger(string str) {
+    for (int i = 0; i < str.length(); i++)
+        if (isdigit(str[i]) == false)
+            return false;
+        else
+            return true;
+}
+
 int main() {
 
     srand(time(NULL)); //Random
@@ -407,43 +473,22 @@ int main() {
     NPC Sirbu("Sirbu", 'M', 19, 67);
     Sirbu.SetStory("Sirbu is the first Dungeonborn. His destiny is to save our world from Fratescu, but instead of this he chose to write a game engine called: Sauce Game Engine. Due to this, now you have to save the world instead of Sirbu");
 
-    cout << "\nYou reached the Gym." << endl;
+    cout << "\nYou reached the Gym.";
     cout << endl;
-    while (action) {
-        cout << "1. Who are you?\n2. Who I am?" << endl;
-        cin >> choose1;
+    cout << "\nSirbu: Hello there, what's your name? (Press enter to continue the dialogue)" << endl; cin.get(); cin.get();
+    cout << hero.GetName() << ": Hey... I am " << hero.GetName() << "." << endl; cin.get();
+    cout << "Sirbu: " << hero.GetName() << "? Oh, we we're waiting for you!" << endl; cin.get();
+    cout << hero.GetName() << ": What do you mean? Why?" << endl; cin.get();
+    cout << "Sirbu: You are the last Dungeonborn, you were summoned by the Gamart to save our world!" << endl; cin.get();
+    cout << hero.GetName() << ": What? Gamart? Who's this?" << endl; cin.get();
+    cout << "Sirbu: To be honest i don't really know... We just know that Gamart summoned a Dungeonborn and here you are." << endl; cin.get(); 
+    cout << hero.GetName() << ": Then who are you?" << endl; cin.get();
+    cout << "Sirbu: I am Sirbu, i am the first Dungeonborn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu." << endl; cin.get(); 
+    cout << hero.GetName() << ": And who's Fratescu?" << endl; cin.get();
+    cout << "Sirbu: " << hero.GetName() << "! Too many questions! You'll get everything little by little!" << endl; cin.get();
 
-        switch (choose1) {
-        case 1:
-            cout << "\nSirbu: I am Sirbu, i am the first Dungeonborn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu.\n" << endl;
-            QuestUpdated("visit Topala's Dungeon");
-            cout << "2. Who I am?" << endl;
-            cin >> choose2;
+    QuestUpdated("visit Topala's Dungeon");
 
-            switch (choose2) {
-            case 2:
-                cout << "\nSirbu: You are the last Dungeonborn, you were summoned by the Gamart to save our world!" << endl;
-                break;
-            }
-            break;
-        case 2:
-            cout << "\nYou are the last Dungeonborn, you were summoned by the Gamart to save our world!\n" << endl;
-            cout << "1. Who are you?" << endl;
-            cin >> choose2;
-
-            switch (choose2) {
-            case 1:
-                cout << "\nI am Sirbu, i am the first Dungeonborn. Our world is attacked by Fratescu's army. You need to visit Topala's Dungeon to find his cum, it'll help you to save Pelivan from Fratescu." << endl;
-                QuestUpdated("visit Topala's Dungeon");
-                break;
-            }
-
-            break;
-        }
-        action = false;
-    }
-
-    cout << endl;
     DefaultChoose("Info about Sirbu", "Topala's Dungeon", Sirbu, hero);
     QuestUpdated("find Topala's cum in the dungeon");
 
@@ -476,7 +521,7 @@ int main() {
     DefaultChoose("Info about Topala", "last room", Topala, hero);
     NPC Seriojka("Seriojka", 'M', 19, 70);
     Seriojka.SetStory("Seriojka is Topala's brother. They are called: Dva brata ebanata. He is also a great mage, but he's weak now due to Topala's runaway");
-    cout << "\nSeriojka: Hello there Dungeonborn! (Press enter to continue the dialogue)" << endl; cin.get(); cin.get();
+    cout << "\nSeriojka: Hello there Dungeonborn!" << endl; cin.get(); cin.get();
     cout << hero.GetName() << ": Hello, i guess..." << endl; cin.get();
     cout << "Seriojka: You're here to find Topala and his cum? Right?" << endl; cin.get();
     cout << hero.GetName() << ": Yes! But who the fuck are you?" << endl; cin.get();
