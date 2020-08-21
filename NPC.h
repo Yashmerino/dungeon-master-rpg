@@ -12,17 +12,17 @@ private:
 public:
     NPC(); //Constructors
 
-    NPC(std::string nick, char type, int value, int value2);
+    NPC(std::string name, char sex, int age, int weight);
 
-    void SetStory(std::string text); //Setter for the story
+    void SetStory(std::string story); //Setter for the story
 
-    void SetName(std::string nick); //Setter for the name
+    void SetName(std::string name); //Setter for the name
 
-    void SetAge(int value); //Setter for the age
+    void SetAge(int age); //Setter for the age
 
-    void SetWeight(int value); //Setter for the weight
+    void SetWeight(int weight); //Setter for the weight
 
-    void SetSex(char type); //Setter for the sex
+    void SetSex(char sex); //Setter for the sex
 
     void PrintInfo(); //Function to print info about the NPC
 

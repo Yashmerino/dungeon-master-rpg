@@ -40,21 +40,21 @@
         return name;
     }
 
-    void DungeonMaster::SetInventory(int slot, Item stuff) { //Setter for the inventory
+    void DungeonMaster::SetInventory(int slot, Item item) { //Setter for the inventory
         if (slot >= Inventory.size()) {
             Inventory.resize(slot + 1);
         }
 
         size_t vSize = Inventory.size();
-        Inventory[slot] = stuff;
+        Inventory[slot] = item;
     }
 
     void DungeonMaster::DeleteInventory(int slot) { //Deletes last item from the inventory
         Inventory.erase(Inventory.begin() + slot);
     }
 
-    void DungeonMaster::SetHP(int value) { //Setter for the HP
-        hp = value;
+    void DungeonMaster::SetHP(int hp) { //Setter for the HP
+        this->hp = hp;
     }
 
     void DungeonMaster::SetName() { //Setter for the name

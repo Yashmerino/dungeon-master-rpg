@@ -8,8 +8,8 @@
         return hp;
     }
 
-    void Enemy::SetHP(int value) { //Setter for the HP
-        hp = value;
+    void Enemy::SetHP(int hp) { //Setter for the HP
+        this->hp = hp;
     }
 
     int Enemy::Attack() { //Attacking

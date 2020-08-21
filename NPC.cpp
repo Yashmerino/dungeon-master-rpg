@@ -5,31 +5,27 @@
 
     }
 
-    NPC::NPC(std::string nick, char type, int value, int value2) {
-        name = nick;
-        sex = type;
-        age = value;
-        weight = value2;
+    NPC::NPC(std::string name, char sex, int age, int weight) : name(name), sex(sex), age(age), weight(weight) {
     }
 
-    void NPC::SetStory(std::string text) { //Setter for the story
-        story = text;
+    void NPC::SetStory(std::string story) { //Setter for the story
+        this->story = story;
     }
 
-    void NPC::SetName(std::string nick) { //Setter for the name
-        name = nick;
+    void NPC::SetName(std::string name) { //Setter for the name
+        this->name = name;
     }
 
-    void NPC::SetAge(int value) { //Setter for the age
-        age = value;
+    void NPC::SetAge(int age) { //Setter for the age
+        this->age = age;
     }
 
-    void NPC::SetWeight(int value) { //Setter for the weight
-        weight = value;
+    void NPC::SetWeight(int weight) { //Setter for the weight
+        this->weight = weight;
     }
 
-    void NPC::SetSex(char type) { //Setter for the sex
-        sex = type;
+    void NPC::SetSex(char sex) { //Setter for the sex
+       this->sex = sex;
     }
 
     void NPC::PrintInfo() { //Function to print info about the NPC

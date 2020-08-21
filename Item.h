@@ -10,15 +10,15 @@ private:
 public:
     Item(); //Constructors
 
-    Item(std::string nick, int value, std::string purp);
+    Item(std::string name, int price, std::string purpose);
 
     std::string GetName(); //Getter for the name of the item
 
-    void SetName(std::string nick); //Setter for item's name
+    void SetName(std::string name); //Setter for item's name
 
-    void SetPrice(int value); //Setter for item's price
+    void SetPrice(int price); //Setter for item's price
 
-    void SetPurpose(std::string type); //Setter for item's purpose
+    void SetPurpose(std::string purpose); //Setter for item's purpose
 
     void PrintInfo(); //Function to print info about the item
 

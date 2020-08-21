@@ -25,11 +25,11 @@ public:
 
     std::string GetName(); //Getter for the name
 
-    void SetInventory(int slot, Item stuff); //Setter for the inventory
+    void SetInventory(int slot, Item item); //Setter for the inventory
 
     void DeleteInventory(int slot); //Deletes last item from the inventory
 
-    void SetHP(int value); //Setter for the HP
+    void SetHP(int hp); //Setter for the HP
 
     void SetName(); //Setter for the name
 

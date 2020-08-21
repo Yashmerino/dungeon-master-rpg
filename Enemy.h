@@ -10,7 +10,7 @@ public:
 
     int GetHP(); //Getter for the HP
 
-    void SetHP(int value); //Setter for the HP
+    void SetHP(int hp); //Setter for the HP
 
     int Attack(); //Attacking
 
