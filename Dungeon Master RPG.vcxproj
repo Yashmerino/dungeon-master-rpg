@@ -140,6 +140,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Dungeon Master RPG.cpp" />
+    <ClCompile Include="DungeonMaster.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="NPC.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DungeonMaster.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="NPC.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
