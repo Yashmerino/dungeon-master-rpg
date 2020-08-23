@@ -351,10 +351,10 @@ int main() {
 
     cout << "\nTopala: Hey, who are you? How did you manage to get here?" << endl; cin.get(); cin.get();
     cout << "Bogdan: I feel his power. He's a Dungeonborn?" << endl; cin.get();
-    cout << "Topala: What? A new Dungeonborn? I thought Sirbu was the single one, after Fratescu refused his Dungeonborn power and became Dungeongod" << endl; cin.get();
+    cout << "Topala: What? A new Dungeonborn? I thought Sirbu was the single one, after Fratescu refused his Dungeonborn power and became Dungeongod." << endl; cin.get();
     cout << hero.GetName() << ": Topala! I need your cum to kill Fratescu, please give it to me!" << endl; cin.get();
     cout << "Topala: Why did you decide that it'll help you?" << endl; cin.get();
-    cout << hero.GetName() << ": Sirbu told me that! I don't think that he lied" << endl; cin.get();
+    cout << hero.GetName() << ": Sirbu told me that! I don't think that he lied." << endl; cin.get();
     cout << "Topala: Sirbu? He's still alive? Hah..." << endl; cin.get();
     cout << hero.GetName() << ": So? May i get it?" << endl; cin.get();
     cout << "Topala: Yeah, of course, wait a little bit." << endl; cin.get();
@@ -426,7 +426,7 @@ int main() {
     cout << "Dungeonborn " << hero.GetName() << " was Fratescu from the past..." << endl; cin.get();
     cout << "The past when he'd never thought that he'll ever want to destroy the whole world." << endl; cin.get();
     cout << "Gamart knew about all this. He knew that only Fratescu can kill himself." << endl; cin.get();
-    cout << "Another Dungeonborn would sent him to the futute, but not kill him." << endl; cin.get();
+    cout << "Another Dungeonborn would sent him to the future, but not kill him." << endl; cin.get();
     cout << "\nYOU SAVED THE WORLD." << endl; cin.get();
     cout << "\nTHANKS FOR PLAYING MY GAME!" << endl; cin.get();
     cout << "\nTHAT WAS DUNGEON MASTER RPG BY ARTIOM BOZIEAC!" << endl; cin.get();
