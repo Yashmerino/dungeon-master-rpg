@@ -1,5 +1,5 @@
 <h1 align="center"><strong><em>Dungeon Master RPG</strong></em></h1>
-<p align="center"><img src="https://image.flaticon.com/icons/png/512/647/647847.png" alt="Dungeon Master RPG logo" height=300 width=300></p>
+<p align="center"><img src="https://cdn-icons-png.flaticon.com/512/5542/5542283.png" alt="Dungeon Master RPG logo" height=300 width=275></p>
   
 # How to run the app?
 
